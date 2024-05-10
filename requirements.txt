@@ -1,0 +1,18 @@
+scikit-learn == 1.4.2
+seaborn==0.13.2
+scipy==1.13.0
+joblib==1.4.2
+pandas==2.2.2
+xgboost==2.0.3
+numpy==1.26.4
+uvicorn==0.29.0
+fastapi==0.111.0
+fastapi-cli==0.0.3
+imbalanced-learn==0.12.2
+pydantic==2.7.1
+pydantic_core==2.18.2
+pydantic-extra-types==2.7.0
+pydantic-settings==2.2.1
+typer==0.12.3
+types-python-dateutil==2.9.0.20240316
+typing_extensions==4.11.0

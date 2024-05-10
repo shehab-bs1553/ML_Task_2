@@ -3,10 +3,12 @@ from pydantic import BaseModel
 import numpy as np
 import xgboost as xgb
 import pickle
+from pathlib import Path
+
 
 # Define the FastAPI app
 app = FastAPI()
-
+BASE_DIR = Path(__file__).resolve().parent.parent
 class InputData(BaseModel):
     Air_temperature: float
     Process_temperature: float
@@ -16,9 +18,9 @@ class InputData(BaseModel):
     Type: str
     
 # Load the XGBoost model and scaler
-with open('Final_model.pkl', 'rb') as model_file:
+with open(f'{BASE_DIR}/ML_task/Final_model.pkl', 'rb') as model_file:
     model = pickle.load(model_file)
-with open('scaler.pkl', 'rb') as scaler_file:
+with open(f'{BASE_DIR}/ML_task/scaler.pkl', 'rb') as scaler_file:
     scaler = pickle.load(scaler_file)
     
 
