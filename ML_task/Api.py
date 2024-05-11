@@ -5,8 +5,6 @@ import xgboost as xgb
 import pickle
 from pathlib import Path
 
-
-# Define the FastAPI app
 app = FastAPI()
 BASE_DIR = Path(__file__).resolve().parent.parent
 class InputData(BaseModel):
@@ -17,14 +15,12 @@ class InputData(BaseModel):
     Tool_wear: int
     Type: str
     
-# Load the XGBoost model and scaler
 with open(f'{BASE_DIR}/ML_task/Final_model.pkl', 'rb') as model_file:
     model = pickle.load(model_file)
 with open(f'{BASE_DIR}/ML_task/scaler.pkl', 'rb') as scaler_file:
     scaler = pickle.load(scaler_file)
     
 
-# Define the predict function
 @app.post('/predict')
 async def predict(input_data: InputData):
     h=0;m=0;l=0
@@ -46,11 +42,20 @@ async def predict(input_data: InputData):
     scaled_input = scaler.transform(input_array)
     print(scaled_input)
     prediction = model.predict(scaled_input)
+    if prediction.item()==0:
+        return {"prediction": "Heat Dissipation Failure"}
+    elif prediction.item()==1:
+        return {"prediction": "No Failure"}
+    elif prediction.item()==2:
+        return {"prediction": "Overstrain Failure"}
+    elif prediction.item()==3:
+        return {"prediction": "Power Failure"}
+    elif prediction.item()==4:
+        return {"prediction": "Random Failures"}
+    else:
+        return {"prediction": "Tool Wear Failure"}
 
-    # Return the prediction as a JSON response
-    return {"prediction": prediction.item()}
 
-# Run the FastAPI application using uvicorn
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
